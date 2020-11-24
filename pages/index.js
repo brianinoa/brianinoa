@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout/layout'
-export default function Home({ ...props }) {
-  const { greeting, styles, urls } = props;
+export default function Home({ ...data }) {
+  const { greeting, styles, urls } = data;
   return (
     <>
       <section>
@@ -48,23 +48,35 @@ export default function Home({ ...props }) {
   )
 }
 
-export async function getStaticProps() {
+// export async function getStaticProps() {
+//   return {
+//     props: {
+//       urls: {
+//         adaptiveUrl: "https://weareadaptive.com/",
+//         upsUrl: "https://www.ups.com/",
+//         linkedInUrl: "https://www.linkedin.com/in/brian-inoa/",
+//         sparkUrl: "https://www.spark.com",
+//       },
+//     }
+//   }
+// }
+
+export async function getServerSideProps() {
   return {
     props: {
+        urls: {
+          adaptiveUrl: "https://weareadaptive.com/",
+          upsUrl: "https://www.ups.com/",
+          linkedInUrl: "https://www.linkedin.com/in/brian-inoa/",
+          sparkUrl: "https://www.spark.com",
+        },
       greeting: getGreeting(),
       styles: {
         topBarStyle: { backgroundColor: getTopBarColor() },
         topBarClassName: 'bar',
       },
-      urls: {
-        adaptiveUrl: "https://weareadaptive.com/",
-        upsUrl: "https://www.ups.com/",
-        linkedInUrl: "https://www.linkedin.com/in/brian-inoa/",
-        sparkUrl: "https://www.spark.com",
-      },
-
     }
-  };
+  }
 }
 
 function getIndexInRange(min, max) {
