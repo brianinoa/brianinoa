@@ -1,57 +1,88 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout/layout'
-const adaptiveUrl = "https://weareadaptive.com/"
-const upsUrl = "https://www.ups.com/"
-export default function Home() {
+export default function Home({ ...props }) {
+  const { greeting, styles, urls } = props;
   return (
-    <Layout home>
-      <Head>
-        <title>{ siteTitle }</title>
-      </Head>
+    <>
       <section>
-        <h2>{ getGreeting() } Brian</h2>
+        <div style={ styles.topBarStyle } className={ styles.topBarClassName }></div>
       </section>
-      <section>
-        <p className={ 'introduction' }>I'm passionate about learning, and I enjoy trying new things.</p>
-        <p>
-          I'm currently a Full Stack Software Developer working in the Dating Industry <strong>
-            <a href="https://www.spark.com" target="_blank" rel="external" referrerPolicy="no-referrer">@ Spark Networks GmbH</a>
-          </strong>
-        </p>
-        <p>
-          I enjoy having conversations on a plethora of topics.
-          Some hobbies I'm currently enjoying are bouldering, guitar playing, baking, and the German language.
+      <Layout home>
+        <Head>
+          <title>{ siteTitle }</title>
+        </Head>
+        <section>
+          <h2>{ greeting } Brian</h2>
+        </section>
+        <section>
+          <p className={ 'introduction' }>I'm passionate about learning, and I enjoy trying new things.</p>
+          <p>
+            I'm currently a Full Stack Software Developer <strong>
+              <a href={ urls.sparkUrl } target="_blank" rel="external" referrerPolicy="no-referrer">@ Spark Networks GmbH</a>
+            </strong>
+          </p>
+          <p>
+            I enjoy having conversations on a plethora of topics.
+            Some hobbies I'm currently enjoying are bouldering, guitar playing, baking, and the German language.
         </p>
 
-        <p>
-          Connect with me on <strong>
-            <a className={ 'c-link' } href="https://www.linkedin.com/in/brian-inoa/" target="_blank" rel="external" referrerPolicy="no-referrer">LinkedIn</a>
-          </strong>
-        </p>
-        <p>
-          <span>
-            Fomerly&nbsp;
-            <a className={ 'bold' } href={ adaptiveUrl } target="_blank" rel="external" referrerPolicy="no-referrer">
-              Adaptive
+          <p>
+            Connect with me on <strong>
+              <a className={ 'c-link' } href={ urls.linkedInUrl } target="_blank" rel="external" referrerPolicy="no-referrer">LinkedIn</a>
+            </strong>
+          </p>
+          <p>
+            <span>
+              Fomerly&nbsp;
+            <a className={ 'bold' } href={ urls.adaptiveUrl } target="_blank" rel="external" referrerPolicy="no-referrer">
+                Adaptive
             </a>, and&nbsp;
-            <a className={ 'bold' } href={ upsUrl } target="_blank" rel="external" referrerPolicy="no-referrer">
-              UPS
+            <a className={ 'bold' } href={ urls.upsUrl } target="_blank" rel="external" referrerPolicy="no-referrer">
+                UPS
             </a>
-          </span>
-        </p>
-      </section>
-    </Layout>
+            </span>
+          </p>
+        </section>
+      </Layout>
+    </>
   )
 }
 
+export async function getStaticProps() {
+  return {
+    props: {
+      greeting: getGreeting(),
+      styles: {
+        topBarStyle: { backgroundColor: getTopBarColor() },
+        topBarClassName: 'bar',
+      },
+      urls: {
+        adaptiveUrl: "https://weareadaptive.com/",
+        upsUrl: "https://www.ups.com/",
+        linkedInUrl: "https://www.linkedin.com/in/brian-inoa/",
+        sparkUrl: "https://www.spark.com",
+      },
 
+    }
+  };
+}
+
+function getIndexInRange(min, max) {
+  const offset = 1;
+  return Math.floor(Math.random() * (max - min + offset) + min);
+}
 
 function getGreeting() {
-  let greeting = Math.floor(Math.random() * (3 - 0 + 1) + 0);
-  return [
-    'Halo, ich bin',
+  const greetings = [
+    'Hallo, ich bin',
     'Hola, soy',
     'Hey, I\'m',
     'Bonjour, je suis'
-  ][ greeting ];
+  ];
+  return greetings[ getIndexInRange(0, greetings.length - 1) ];
+}
+
+function getTopBarColor() {
+  const colors = [ '#D0B8AC', '#AE9F8B', '#846B8A', '#D4D2D5', '#6E6A6F' ];
+  return colors[ getIndexInRange(0, colors.length - 1) ];
 }

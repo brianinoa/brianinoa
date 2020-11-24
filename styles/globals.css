@@ -83,3 +83,9 @@ a:hover {
   text-decoration: none;
   color: rgb(126, 126, 126);
 }
+
+.bar {
+  width: 100%;
+  height: 20px;
+  background-color: #ae9f8b;
+}
