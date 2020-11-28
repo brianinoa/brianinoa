@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import styles from './layout.module.css'
 
-const name = 'Brian Inoa'
 export const siteTitle = 'Brian Inoa'
 export default function Layout({ children }: {
     children: React.ReactNode

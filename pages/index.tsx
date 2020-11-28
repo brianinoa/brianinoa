@@ -1,6 +1,12 @@
-import { GetServerSideProps } from 'next'
 import Head from 'next/head'
+import { GetServerSideProps } from 'next'
+import React, { useState } from 'react';
+import { ThemeProvider } from 'styled-components';
 import Layout, { siteTitle } from '../components/layout/layout'
+import { lightTheme, darkTheme } from '../styles/theme';
+import { GlobalStyles } from '../styles/global';
+
+import { Toggle } from '../components/toggle/toggle';
 
 interface HomeProps {
   greeting: string;
@@ -15,49 +21,65 @@ interface HomeProps {
 
 export default function Home({ ...data }: HomeProps) {
   const { greeting, styles, urls } = data;
-  return (
-    <>
-      <section>
-        <div style={styles.topBarStyle} className={styles.topBarClassName}></div>
-      </section>
-      <Layout>
-        <Head>
-          <title>{siteTitle}</title>
-        </Head>
-        <section>
-          <h2>{greeting} Brian</h2>
-        </section>
-        <section>
-          <p className={'introduction'}>I'm passionate about learning, and I enjoy trying new things.</p>
-          <p>
-            I'm currently a Full Stack Software Developer <strong>
-              <a href={urls.sparkUrl} target="_blank" rel="external" referrerPolicy="no-referrer">@ Spark Networks GmbH</a>
-            </strong>
-          </p>
-          <p>
-            I enjoy having conversations on a plethora of topics.
-            Some hobbies I'm currently enjoying are bouldering, guitar playing, baking, and the German language.
-        </p>
+  const [ theme, setTheme ] = useState(lightTheme);
 
-          <p>
-            Connect with me on <strong>
-              <a className={'c-link'} href={urls.linkedInUrl} target="_blank" rel="external" referrerPolicy="no-referrer">LinkedIn</a>
-            </strong>
-          </p>
-          <p>
-            <span>
-              Fomerly&nbsp;
-            <a className={'bold'} href={urls.adaptiveUrl} target="_blank" rel="external" referrerPolicy="no-referrer">
-                Adaptive
-            </a>, and&nbsp;
-            <a className={'bold'} href={urls.upsUrl} target="_blank" rel="external" referrerPolicy="no-referrer">
-                UPS
-            </a>
-            </span>
-          </p>
+  const toggleTheme = () => {
+    if (theme === lightTheme) {
+      setTheme(darkTheme);
+    } else {
+      setTheme(lightTheme);
+    }
+  }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <>
+        <GlobalStyles />
+        <section>
+          <div style={styles.topBarStyle} className={styles.topBarClassName}></div>
         </section>
-      </Layout>
-    </>
+        <Layout>
+          <Head>
+            <title>{siteTitle}</title>
+          </Head>
+          <section style={{ "display": "flex", "justifyContent": "space-between" }}>
+            <h2 style={{ "display": "inline", "alignSelf": "flex-start" }}>{greeting} Brian</h2>
+            <Toggle theme={theme} toggleTheme={toggleTheme} />
+          </section>
+          <section>
+          </section>
+          <section>
+            <p className={'introduction'}>I'm passionate about enjoying life, learning, and trying new things.</p>
+            <p>
+              I'm currently a Senior Full Stack Developer <strong>
+                <a href={urls.sparkUrl} target="_blank" rel="external" referrerPolicy="no-referrer">@ Spark Networks GmbH</a>
+              </strong>
+            </p>
+            <p>
+              I enjoy having conversations on a plethora of topics.
+              Some hobbies I'm currently enjoying are bouldering, guitar playing, baking, and learning the German language.
+            </p>
+
+            <p>
+              Connect with me on <strong>
+                <a className={'c-link'} href={urls.linkedInUrl} target="_blank" rel="external" referrerPolicy="no-referrer">LinkedIn</a>
+              </strong>
+            </p>
+            <p>
+              <span>
+                Fomerly&nbsp;
+                <a className={'bold'} href={urls.adaptiveUrl} target="_blank" rel="external" referrerPolicy="no-referrer">
+                  Adaptive
+                </a>, and&nbsp;
+                <a className={'bold'} href={urls.upsUrl} target="_blank" rel="external" referrerPolicy="no-referrer">
+                  UPS
+                </a>
+              </span>
+            </p>
+          </section>
+        </Layout>
+      </>
+    </ThemeProvider>
   )
 }
 
