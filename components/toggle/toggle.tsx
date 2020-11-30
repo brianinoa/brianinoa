@@ -41,8 +41,8 @@ const ToggleContainer = styled.button<{ isLight: boolean, theme: Theme }>`
   }
 `;
 
-export const Toggle = function ({ theme, toggleTheme }: { theme: Theme; toggleTheme: (() => void); }) {
-  const isLight = theme === lightTheme;
+export const Toggle = function ({ theme, toggleTheme, isLight }: { theme: Theme; toggleTheme: (() => void); isLight: boolean; }) {
+  // const isLight = theme.body === lightTheme.body;
   return (
     <ToggleContainer isLight={isLight} onClick={toggleTheme} >
       <SunIcon />

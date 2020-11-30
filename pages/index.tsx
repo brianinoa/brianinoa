@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next'
 import React, { useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import Layout, { siteTitle } from '../components/layout/layout'
-import { lightTheme, darkTheme } from '../styles/theme';
+import { lightTheme, darkTheme, Theme } from '../styles/theme';
 import { GlobalStyles } from '../styles/global';
 
 import { Toggle } from '../components/toggle/toggle';
@@ -19,68 +19,89 @@ interface HomeProps {
   }
 };
 
-export default function Home({ ...data }: HomeProps) {
-  const { greeting, styles, urls } = data;
-  const [ theme, setTheme ] = useState(lightTheme);
-
-  const toggleTheme = () => {
-    if (theme === lightTheme) {
-      setTheme(darkTheme);
-    } else {
-      setTheme(lightTheme);
-    }
+export default class Home extends React.Component<HomeProps> {
+  private readonly lightThemeBody: string;
+  private readonly darkModeKey: string;
+  constructor(props: HomeProps) {
+    super(props);
+    this.lightThemeBody = '#E2E2E2';
+    this.darkModeKey = 'darkMode';
+    this.state = { theme: {} };
   }
 
-  return (
-    <ThemeProvider theme={theme}>
-      <>
-        <GlobalStyles />
-        <section>
-          <div style={styles.topBarStyle} className={styles.topBarClassName}></div>
-        </section>
-        <Layout>
-          <Head>
-            <title>{siteTitle}</title>
-          </Head>
-          <section style={{ "display": "flex", "justifyContent": "space-between" }}>
-            <h2 style={{ "display": "inline", "alignSelf": "flex-start" }}>{greeting} Brian</h2>
-            <Toggle theme={theme} toggleTheme={toggleTheme} />
-          </section>
+  componentDidMount() {
+    const recentOrDefaultDarkMode = localStorage.getItem(this.darkModeKey) || JSON.stringify(darkTheme);
+    const theme: Theme = JSON.parse(recentOrDefaultDarkMode);
+    this.setState({ theme });
+  }
+
+  toggleTheme = () => {
+    let { theme } = this.state as { theme: Theme };
+    const { isLight } = this.checkIsLightThemeEnabled(theme);
+    theme = (isLight ? darkTheme : lightTheme);
+    this.setState({ theme });
+    localStorage.setItem(this.darkModeKey, JSON.stringify({ ...theme }));
+  }
+
+  checkIsLightThemeEnabled(theme: Theme) {
+    return { isLight: theme.body === this.lightThemeBody };
+  }
+
+  render() {
+    const { greeting, styles, urls } = this.props;
+    const { theme } = (this.state as { theme: Theme });
+    const { isLight } = this.checkIsLightThemeEnabled(theme);
+    return (
+      <ThemeProvider theme={theme}>
+        <>
+          <GlobalStyles />
           <section>
+            <div style={styles.topBarStyle} className={styles.topBarClassName}></div>
           </section>
-          <section>
-            <p className={'introduction'}>I'm passionate about enjoying life, learning, and trying new things.</p>
-            <p>
-              I'm currently a Senior Full Stack Developer <strong>
-                <a href={urls.sparkUrl} target="_blank" rel="external" referrerPolicy="no-referrer">@ Spark Networks GmbH</a>
-              </strong>
-            </p>
-            <p>
-              I enjoy having conversations on a plethora of topics.
-              Some hobbies I'm currently enjoying are bouldering, guitar playing, baking, and learning the German language.
+          <Layout>
+            <Head>
+              <title>{siteTitle}</title>
+            </Head>
+            <section style={{ "display": "flex", "justifyContent": "space-between" }}>
+              <h2 style={{ "display": "inline", "alignSelf": "flex-start" }}>{greeting} Brian</h2>
+              <Toggle theme={{ ...theme }} toggleTheme={this.toggleTheme} isLight={isLight} />
+            </section>
+            <section>
+            </section>
+            <section>
+              <p className={'introduction'}>I'm passionate about enjoying life, learning, and trying new things.</p>
+              <p>
+                I'm currently a Senior Full Stack Developer <strong>
+                  <a href={urls.sparkUrl} target="_blank" rel="external" referrerPolicy="no-referrer">@ Spark Networks GmbH</a>
+                </strong>
+              </p>
+              <p>
+                I enjoy having conversations on a plethora of topics.
+                Some hobbies I'm currently enjoying are bouldering, guitar playing, baking, and learning the German language.
             </p>
 
-            <p>
-              Connect with me on <strong>
-                <a className={'c-link'} href={urls.linkedInUrl} target="_blank" rel="external" referrerPolicy="no-referrer">LinkedIn</a>
-              </strong>
-            </p>
-            <p>
-              <span>
-                Fomerly&nbsp;
+              <p>
+                Connect with me on <strong>
+                  <a className={'c-link'} href={urls.linkedInUrl} target="_blank" rel="external" referrerPolicy="no-referrer">LinkedIn</a>
+                </strong>
+              </p>
+              <p>
+                <span>
+                  Fomerly&nbsp;
                 <a className={'bold'} href={urls.adaptiveUrl} target="_blank" rel="external" referrerPolicy="no-referrer">
-                  Adaptive
+                    Adaptive
                 </a>, and&nbsp;
                 <a className={'bold'} href={urls.upsUrl} target="_blank" rel="external" referrerPolicy="no-referrer">
-                  UPS
+                    UPS
                 </a>
-              </span>
-            </p>
-          </section>
-        </Layout>
-      </>
-    </ThemeProvider>
-  )
+                </span>
+              </p>
+            </section>
+          </Layout>
+        </>
+      </ThemeProvider>
+    )
+  }
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
