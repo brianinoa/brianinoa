@@ -30,7 +30,7 @@ export default class Home extends React.Component<HomeProps> {
   }
 
   componentDidMount() {
-    const recentOrDefaultDarkMode = localStorage.getItem(this.darkModeKey) || JSON.stringify(darkTheme);
+    const recentOrDefaultDarkMode = localStorage.getItem(this.darkModeKey) || JSON.stringify(lightTheme);
     const theme: Theme = JSON.parse(recentOrDefaultDarkMode);
     this.setState({ theme });
   }
@@ -69,15 +69,15 @@ export default class Home extends React.Component<HomeProps> {
             <section>
             </section>
             <section>
-              <p className={'introduction'}>I'm passionate about enjoying life, learning, and trying new things.</p>
+              <p className={'introduction'}>I'm passionate a developer who's focussed on enjoying life, learning, and trying new things.</p>
               <p>
                 I'm currently a Senior Full Stack Developer <strong>
                   <a href={urls.sparkUrl} target="_blank" rel="external" referrerPolicy="no-referrer">@ Spark Networks GmbH</a>
                 </strong>
               </p>
               <p>
-                I enjoy having conversations on a plethora of topics.
-                Some hobbies I'm currently enjoying are bouldering, guitar playing, baking, and learning the German language.
+                You can usually find me rambling on about a number of topics.
+                Some hobbies I'm currently enjoying are bouldering, the electric guitar, baking, and learning the German language.
             </p>
 
               <p>
@@ -86,7 +86,7 @@ export default class Home extends React.Component<HomeProps> {
                 </strong>
               </p>
               <p>
-                <span>
+                <span style={{display: "none"}}>
                   Fomerly&nbsp;
                 <a className={'bold'} href={urls.adaptiveUrl} target="_blank" rel="external" referrerPolicy="no-referrer">
                     Adaptive
