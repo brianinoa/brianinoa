@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import theme from 'styled-theming';
 import { Theme as DefaultTheme } from './theme';
 
 export const GlobalStyles = createGlobalStyle`
@@ -39,18 +38,19 @@ export const GlobalStyles = createGlobalStyle`
 
     body {
         align-items: center;
-        background: ${({ theme }: { theme: DefaultTheme }) => theme.body};
-        color: ${({ theme }: { theme: DefaultTheme }) => theme.text};
+        background: ${({ theme }: { theme: DefaultTheme }) => '#ececec'};
+        color: ${({ theme }: { theme: DefaultTheme }) => '#363537'};
         padding: 0;
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
         line-height: 1.6;
         font-size: 18px;
         transition: all 0.25s linear;
+        overflow: hidden;
     }
 
     a {
-        color: ${({ theme }: { theme: DefaultTheme }) => theme.normalLink};
+        color: ${({ theme }: { theme: DefaultTheme }) => '#27292a'};
         text-decoration: none;
     }
 
@@ -89,15 +89,15 @@ export const GlobalStyles = createGlobalStyle`
 
     .introduction {
         font-family: NiveauGroteskRegular;
-        color: ${({ theme }: { theme: DefaultTheme }) => theme.introduction};
+        color: ${({ theme }: { theme: DefaultTheme }) => '#555'};
     }
 
     .c-link {
-        border-bottom: 1px dotted ${({ theme }: { theme: DefaultTheme }) => theme.dotted};
+        border-bottom: 1px dotted ${({ theme }: { theme: DefaultTheme }) => '#000'};
     }
 
     a:hover {
         text-decoration: none;
-        color: ${({ theme }: { theme: DefaultTheme }) => theme.linkHover};
+        color: ${({ theme }: { theme: DefaultTheme }) => '#7e7e7e'};
     }
 `
