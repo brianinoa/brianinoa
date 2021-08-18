@@ -46,7 +46,6 @@ export const GlobalStyles = createGlobalStyle`
         line-height: 1.6;
         font-size: 18px;
         transition: all 0.25s linear;
-        overflow: hidden;
     }
 
     a {
