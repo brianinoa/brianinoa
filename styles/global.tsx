@@ -2,6 +2,24 @@ import { createGlobalStyle } from 'styled-components';
 import { Theme as DefaultTheme } from './theme';
 
 export const GlobalStyles = createGlobalStyle`
+    @keyframes multicolor {
+        0% { background-color: #D0B8AC; }
+        16% { background-color: #AE9F8B; }
+        33% { background-color: #846B8A; }
+        49% { background-color: #D4D2D5; }
+        66% { background-color: #6E6A6F; }
+        100% { background-color: #D0B8AC; }
+    }
+
+    @-webkit-keyframes multicolor {
+        0% { background-color: #D0B8AC; }
+        16% { background-color: #AE9F8B; }
+        33% { background-color: #846B8A; }
+        49% { background-color: #D4D2D5; }
+        66% { background-color: #6E6A6F; }
+        100% { background-color: #D0B8AC; }
+    }
+
     @font-face {
         font-family: NiveauGroteskBold;
         src: url(/fonts/NiveauGroteskBold.otf);
@@ -57,6 +75,13 @@ export const GlobalStyles = createGlobalStyle`
         width: 100%;
         height: 20px;
         background-color: #ae9f8b;
+        animation: 60s multicolor;
+        -webkit-animation: 60s multicolor;
+    }
+
+    .bar:hover {
+        -webkit-animation-play-state: 0;
+        animation-play-state: 0;
     }
 
     a:hover {
